@@ -1,5 +1,5 @@
 # Xinmeng Wu 09/16/24
-# USAGE: python WebCam.py -f video_file_name
+# USAGE: python WebCam.py
 
 # import the necessary packages
 import cv2
@@ -21,14 +21,7 @@ else:
 
 time.sleep(1.0)
 
-# Initialize variables for different effects
-crop_mode = False
-resize_mode = False
-blur_mode = False
-box_mode = False
-text_mode = False
-threshold_mode = False
-new_function_mode = False
+active_mode = None
 
 # loop over the frames from the video stream
 while True:
@@ -43,30 +36,22 @@ while True:
 
     # Add your code HERE: For example,
     #gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    if crop_mode:
+    if active_mode == 'crop':
         frame = frame[50:400, 50:500]
-    
-    if resize_mode:
+    elif active_mode == 'resize':
         frame = cv2.resize(frame, (600, 500))
-    
-    if blur_mode:
+    elif active_mode == 'blur':
         frame = cv2.GaussianBlur(frame, (15, 15), 0)
-    
-    if box_mode:
+    elif active_mode == 'box':
         cv2.rectangle(frame, (100, 100), (300, 300), (0, 255, 0), 2)
-    
-    if text_mode:
+    elif active_mode == 'text':
         font = cv2.FONT_HERSHEY_SIMPLEX
         cv2.putText(frame, "Xinmeng Wu", (100, 100), font, 1, (255, 0, 0), 2, cv2.LINE_AA)
-    
-    if threshold_mode:
+    elif active_mode == 'threshold':
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         _, frame = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
-        # single-channel to three-channel
         frame = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
-    
-    # New function (edge detection)
-    if new_function_mode:
+    elif active_mode == 'new_function': # edge detection
         edges = cv2.Canny(frame, 100, 200)
         frame = cv2.cvtColor(edges, cv2.COLOR_GRAY2BGR)
 
@@ -79,19 +64,19 @@ while True:
     if key == ord("q"):
         break
     elif key == ord('c') or key == ord('C'):
-        crop_mode = not crop_mode
+        active_mode = 'crop' if active_mode != 'crop' else None
     elif key == ord('r') or key == ord('R'):
-        resize_mode = not resize_mode
+        active_mode = 'resize' if active_mode != 'resize' else None
     elif key == ord('b') or key == ord('B'):
-        blur_mode = not blur_mode
+        active_mode = 'blur' if active_mode != 'blur' else None
     elif key == ord('a') or key == ord('A'):
-        box_mode = not box_mode
+        active_mode = 'box' if active_mode != 'box' else None
     elif key == ord('t') or key == ord('T'):
-        text_mode = not text_mode
+        active_mode = 'text' if active_mode != 'text' else None
     elif key == ord('g') or key == ord('G'):
-        threshold_mode = not threshold_mode
+        active_mode = 'threshold' if active_mode != 'threshold' else None
     elif key == ord('n') or key == ord('N'):
-        new_function_mode = not new_function_mode
+        active_mode = 'new_function' if active_mode != 'new_function' else None
 
 cv2.destroyAllWindows()
 vs.release()
