@@ -1,6 +1,7 @@
-## Read and Display Video File
+## Intro
 
 This script processes video input (from a file or camera) and applies various effects based on user input. 
+demo.mp4 is a screenshot video to demo the WebCam.py.
 
 ## Effect Implementations
 
