@@ -57,6 +57,11 @@ Run the script from the command line:
 python WebCam.py
 ```
 It will use the default camera.
+```
+python WebCam.py -f saved_vedio
+```
+It will use the saved video as input.
+
 
 ## User Interaction
 
